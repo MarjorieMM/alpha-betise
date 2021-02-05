@@ -101,7 +101,7 @@ class Book
 
     /**
      * @ORM\ManyToOne(targetEntity=AgeGroup::class, inversedBy="books")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $age_group;
 

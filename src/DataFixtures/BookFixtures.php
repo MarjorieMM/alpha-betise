@@ -8,10 +8,11 @@ use App\Entity\BookPhoto;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class AppFixtures extends Fixture
+class BookFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+      
         $booknames = [
             "L'Etonnante Famille Appenzel", "Gaston Grognon", "La Famille Passiflore", "Les Gestes Barrières", "Maman Ours A La Rescousse"
         ];
@@ -52,9 +53,6 @@ class AppFixtures extends Fixture
             $price = [
                 19.9, 13.9, 13, 2.95, 12
             ];
-//     $availability = [
-// 'en stock', 'momentanément indisponible', 'en commande',  'épuisé'
-//     ];
 
         $agegroup = new AgeGroup();
         $agegroup->setMinAge(0);
@@ -132,9 +130,6 @@ $availability2 = [
     $price2 = [
         13.5, 9.95, 13.5, 8.5, 15.1, 9.5, 7.95, 12.7
     ];
-//     $availability = [
-// 'en stock', 'momentanément indisponible', 'en commande',  'épuisé'
-//     ];
 
 $agegroup2 = new AgeGroup();
 $agegroup2->setMinAge(4);
@@ -214,9 +209,6 @@ $availability3 = [
     $price3 = [
         19.9, 20, 14.95, 14.95, 9.5
     ];
-//     $availability = [
-// 'en stock', 'momentanément indisponible', 'en commande',  'épuisé'
-//     ];
 
 $agegroup3 = new AgeGroup();
 $agegroup3->setMinAge(8);
@@ -295,9 +287,6 @@ $availability4 = [
     $price4 = [
         32, 18.9 , 28 ,27.95 , 22
     ];
-//     $availability = [
-// 'en stock', 'momentanément indisponible', 'en commande',  'épuisé'
-//     ];
 
 $agegroup4 = new AgeGroup();
 $agegroup4->setMinAge(15);
@@ -329,8 +318,9 @@ $photo4->setBook($book4);
 $manager->persist($agegroup4);
 $manager->persist($book4);
 $manager->persist($photo4);
-
 }
+
+
 
 
         $manager->flush();

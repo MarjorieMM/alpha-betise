@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\AdminRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,7 +20,12 @@ class Admin
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $lastname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -34,29 +37,31 @@ class Admin
      */
     private $password;
 
-    /**
-     * @ORM\OneToMany(targetEntity=AdminComment::class, mappedBy="admin")
-     */
-    private $adminComments;
-
-    public function __construct()
-    {
-        $this->adminComments = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getLastname(): ?string
     {
-        return $this->name;
+        return $this->lastname;
     }
 
-    public function setName(string $name): self
+    public function setLastname(string $lastname): self
     {
-        $this->name = $name;
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(string $firstname): self
+    {
+        $this->firstname = $firstname;
 
         return $this;
     }
@@ -81,36 +86,6 @@ class Admin
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|AdminComment[]
-     */
-    public function getAdminComments(): Collection
-    {
-        return $this->adminComments;
-    }
-
-    public function addAdminComment(AdminComment $adminComment): self
-    {
-        if (!$this->adminComments->contains($adminComment)) {
-            $this->adminComments[] = $adminComment;
-            $adminComment->setAdmin($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAdminComment(AdminComment $adminComment): self
-    {
-        if ($this->adminComments->removeElement($adminComment)) {
-            // set the owning side to null (unless already changed)
-            if ($adminComment->getAdmin() === $this) {
-                $adminComment->setAdmin(null);
-            }
-        }
 
         return $this;
     }

@@ -18,28 +18,37 @@ class Booking
     private $id;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $number_participants;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="bookings")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $customer;
 
     /**
      * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="bookings")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $event;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $cancelled;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="booking")
-     */
-    private $customer_booking;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getNumberParticipants(): ?int
+    {
+        return $this->number_participants;
+    }
+
+    public function setNumberParticipants(int $number_participants): self
+    {
+        $this->number_participants = $number_participants;
+
+        return $this;
     }
 
     public function getCustomer(): ?Customer
@@ -62,30 +71,6 @@ class Booking
     public function setEvent(?Event $event): self
     {
         $this->event = $event;
-
-        return $this;
-    }
-
-    public function getCancelled(): ?bool
-    {
-        return $this->cancelled;
-    }
-
-    public function setCancelled(bool $cancelled): self
-    {
-        $this->cancelled = $cancelled;
-
-        return $this;
-    }
-
-    public function getCustomerBooking(): ?Customer
-    {
-        return $this->customer_booking;
-    }
-
-    public function setCustomerBooking(?Customer $customer_booking): self
-    {
-        $this->customer_booking = $customer_booking;
 
         return $this;
     }

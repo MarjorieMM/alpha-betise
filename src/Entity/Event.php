@@ -25,6 +25,11 @@ class Event
     private $title;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $category;
@@ -32,27 +37,22 @@ class Event
     /**
      * @ORM\Column(type="datetime")
      */
-    private $start_date;
+    private $date;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="datetime")
      */
     private $duration;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $photo;
-
-    /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $presentation;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $booking;
+    private $booking_required;
 
     /**
      * @ORM\Column(type="boolean")
@@ -60,29 +60,27 @@ class Event
     private $free;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $max_participants;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity=AgeGroup::class, inversedBy="events")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="integer", nullable=true)
      */
-    private $age_group;
+    private $max_participants;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AgeGroup::class, inversedBy="events")
+     */
+    private $ageGroup;
 
     /**
      * @ORM\ManyToOne(targetEntity=Venue::class, inversedBy="events")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $venue;
 
     /**
-     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="event")
+     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="event", orphanRemoval=true)
      */
     private $bookings;
 
@@ -108,6 +106,18 @@ class Event
         return $this;
     }
 
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
     public function getCategory(): ?string
     {
         return $this->category;
@@ -120,38 +130,26 @@ class Event
         return $this;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->start_date;
+        return $this->date;
     }
 
-    public function setStartDate(\DateTimeInterface $start_date): self
+    public function setDate(\DateTimeInterface $date): self
     {
-        $this->start_date = $start_date;
+        $this->date = $date;
 
         return $this;
     }
 
-    public function getDuration(): ?int
+    public function getDuration(): ?\DateTimeInterface
     {
         return $this->duration;
     }
 
-    public function setDuration(int $duration): self
+    public function setDuration(\DateTimeInterface $duration): self
     {
         $this->duration = $duration;
-
-        return $this;
-    }
-
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(string $photo): self
-    {
-        $this->photo = $photo;
 
         return $this;
     }
@@ -161,21 +159,21 @@ class Event
         return $this->presentation;
     }
 
-    public function setPresentation(string $presentation): self
+    public function setPresentation(?string $presentation): self
     {
         $this->presentation = $presentation;
 
         return $this;
     }
 
-    public function getBooking(): ?bool
+    public function getBookingRequired(): ?bool
     {
-        return $this->booking;
+        return $this->booking_required;
     }
 
-    public function setBooking(bool $booking): self
+    public function setBookingRequired(bool $booking_required): self
     {
-        $this->booking = $booking;
+        $this->booking_required = $booking_required;
 
         return $this;
     }
@@ -192,18 +190,6 @@ class Event
         return $this;
     }
 
-    public function getMaxParticipants(): ?int
-    {
-        return $this->max_participants;
-    }
-
-    public function setMaxParticipants(int $max_participants): self
-    {
-        $this->max_participants = $max_participants;
-
-        return $this;
-    }
-
     public function getPrice(): ?int
     {
         return $this->price;
@@ -216,14 +202,26 @@ class Event
         return $this;
     }
 
-    public function getAgeGroup(): ?AgeGroup
+    public function getMaxParticipants(): ?int
     {
-        return $this->age_group;
+        return $this->max_participants;
     }
 
-    public function setAgeGroup(?AgeGroup $age_group): self
+    public function setMaxParticipants(?int $max_participants): self
     {
-        $this->age_group = $age_group;
+        $this->max_participants = $max_participants;
+
+        return $this;
+    }
+
+    public function getAgeGroup(): ?AgeGroup
+    {
+        return $this->ageGroup;
+    }
+
+    public function setAgeGroup(?AgeGroup $ageGroup): self
+    {
+        $this->ageGroup = $ageGroup;
 
         return $this;
     }

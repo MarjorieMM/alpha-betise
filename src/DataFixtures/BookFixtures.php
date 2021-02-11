@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\AgeGroup;
 use App\Entity\Book;
-use App\Entity\BookPhoto;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -32,6 +31,10 @@ class BookFixtures extends Fixture
             "Margot", "Casterman", "Milan", "Deux Coqs d'Or", "Albin Michel"
         ];
 
+        $publishing_house = [
+            "Actes Sud Junior", "Amaterra", "Autrement", "Auzou", "Balivernes"
+        ];
+
         $collections = [
             "Famille", "Fiction", "Famille", "Education", "Fiction"
         ];
@@ -51,39 +54,37 @@ class BookFixtures extends Fixture
             ];
 
             $price = [
-                19.9, 13.9, 13, 2.95, 12
+                1990, 1390, 1300, 2950, 1200
             ];
 
         $agegroup = new AgeGroup();
         $agegroup->setMinAge(0);
         $agegroup->setMaxAge(3);
-        $agegroup->setName("Enfants 0 - 3 ans");
+        $agegroup->setCategory("Enfants 0 - 3 ans");
 
        for ($i=0; $i < count($booknames); $i++) { 
-        $photo = new BookPhoto();
-        $photo->setLink("public/images/books0-7/" .$bookphotos[$i]);
         $book = new Book();
+        $book->setCoverPhoto($bookphotos[$i]);
         $book->setTitle($booknames[$i]);
         $book->setExtract($bookExtracts[$i]);
     $book->setEditor($editors[$i]);
-    $book->setPublishingHouse($editors[$i]);
-    $book->setPublicationDate(2020);
+    $book->setPublishingHouse($publishing_house[$i]);
+    $book->setPublicationDate(new \DateTime("2017-07-09"));
     $book->setCollection($collections[$i]);
 $book->setEANCode($ean[$i]);
 $book->setISBNCode(rand(1000000000, 9999999999));
-$book->setNumberPages(rand(30, 150));
-$book->setDimensions(rand(30, 50));
+$book->setNumberPages(rand(100, 150));
+$book->setDimensionH(rand(20, 50));
+$book->setDimensionW(rand(15, 40));
 $book->setWeight(rand(300, 600));
 $book->setLanguage("Français");
 $book->setOriginalLanguage($OLanguage[$i]);
-$book->setAvailability($availability[$i]);
+// $book->setAvailability($availability[$i]);
 $book->setStock($stock[$i]);
 $book->setPrice($price[$i]);
 $book->setAgeGroup($agegroup);
-$photo->setBook($book);
 $manager->persist($agegroup);
 $manager->persist($book);
-$manager->persist($photo);
 
 
 }
@@ -109,6 +110,9 @@ $editors2 = [
     "Actes Sud", "BD Kids", "Pastel", "Balivernes Editions", "Casterman", "PKJ", "Mini BD Kids", "Casterman"
 ];
 
+$publishing_house2 = [ "Bayard", "Belin", "Casterman", "Creapassions", "Desclee De Brouwer","Editions Du Rocher", "Editions Mango", "Flammarion"
+];
+
 $collections2 = [ 
     "Famille", "Fiction", "Famille", "Education", "Fiction", "Education", "Famille", "Fiction"
 ];
@@ -128,39 +132,38 @@ $availability2 = [
     ];
 
     $price2 = [
-        13.5, 9.95, 13.5, 8.5, 15.1, 9.5, 7.95, 12.7
+        1350, 995, 1350,850, 1510, 950, 795, 1270
     ];
+
 
 $agegroup2 = new AgeGroup();
 $agegroup2->setMinAge(4);
 $agegroup2->setMaxAge(7);
-$agegroup2->setName("Enfants 4 - 7 ans");
+$agegroup2->setCategory("Enfants 4 - 7 ans");
 
 for ($i=0; $i < count($booknames2); $i++) { 
-$photo2 = new BookPhoto();
-$photo2->setLink("public/images/jeunesse-toutpetit/".$bookphotos2[$i]);
 $book2 = new Book();
+$book2->setCoverPhoto($bookphotos2[$i]);
 $book2->setTitle($booknames2[$i]);
 $book2->setExtract($bookExtracts2[$i]);
 $book2->setEditor($editors2[$i]);
-$book2->setPublishingHouse($editors2[$i]);
-$book2->setPublicationDate(2020);
+$book2->setPublishingHouse($publishing_house2[$i]);
+$book2->setPublicationDate(new \DateTime("2015-12-19"));
 $book2->setCollection($collections2[$i]);
 $book2->setEANCode($ean2[$i]);
 $book2->setISBNCode(rand(1000000000, 9999999999));
-$book2->setNumberPages(rand(30, 150));
-$book2->setDimensions(rand(30, 50));
+$book2->setNumberPages(rand(100, 250));
+$book2->setDimensionH(rand(20, 50));
+$book2->setDimensionW(rand(15, 40));
 $book2->setWeight(rand(300, 600));
 $book2->setLanguage("Français");
 $book2->setOriginalLanguage($OLanguage2[$i]);
-$book2->setAvailability($availability2[$i]);
+// $book2->setAvailability($availability2[$i]);
 $book2->setStock($stock2[$i]);
 $book2->setPrice($price2[$i]);
 $book2->setAgeGroup($agegroup2);
-$photo2->setBook($book2);
 $manager->persist($agegroup2);
 $manager->persist($book2);
-$manager->persist($photo2);
 
 }
 
@@ -188,6 +191,10 @@ $editors3 = [
     "Albin Michel", "Gallimard Jeunesse", "Romans Ynnis", "Romans Ynnis",  "Casterman"
 ];
 
+$publishing_house3 = [
+       "Albin Michel","Flammarion","Fleurus", "Formulette", "Casterman"
+];
+
 $collections3 = [ 
     "Famille", "Fiction","Education", "Famille",  "Fiction"
 ];
@@ -207,39 +214,37 @@ $availability3 = [
     ];
 
     $price3 = [
-        19.9, 20, 14.95, 14.95, 9.5
+        1990, 2000, 1495, 1495, 950
     ];
 
 $agegroup3 = new AgeGroup();
 $agegroup3->setMinAge(8);
 $agegroup3->setMaxAge(15);
-$agegroup3->setName("Enfants 8 - 15 ans");
+$agegroup3->setCategory("Enfants 8 - 15 ans");
 
 for ($i=0; $i < count($booknames3); $i++) { 
-$photo3 = new BookPhoto();
-$photo3->setLink("public/images/romans-jeunesse/".$bookphotos3[$i]);
 $book3 = new Book();
+$book3->setCoverPhoto($bookphotos3[$i]);
 $book3->setTitle($booknames3[$i]);
 $book3->setExtract($bookExtracts3[$i]);
 $book3->setEditor($editors3[$i]);
-$book3->setPublishingHouse($editors3[$i]);
-$book3->setPublicationDate(2020);
+$book3->setPublishingHouse($publishing_house3[$i]);
+$book3->setPublicationDate(new \DateTime("2015-02-10"));
 $book3->setCollection($collections3[$i]);
 $book3->setEANCode($ean3[$i]);
 $book3->setISBNCode(rand(1000000000, 9999999999));
-$book3->setNumberPages(rand(30, 150));
-$book3->setDimensions(rand(30, 50));
+$book3->setNumberPages(rand(100, 250));
+$book3->setDimensionH(rand(20, 50));
+$book3->setDimensionW(rand(15, 40));
 $book3->setWeight(rand(300, 600));
 $book3->setLanguage("Français");
 $book3->setOriginalLanguage($OLanguage3[$i]);
-$book3->setAvailability($availability3[$i]);
+// $book3->setAvailability($availability3[$i]);
 $book3->setStock($stock3[$i]);
 $book3->setPrice($price3[$i]);
 $book3->setAgeGroup($agegroup3);
-$photo3->setBook($book3);
 $manager->persist($agegroup3);
 $manager->persist($book3);
-$manager->persist($photo3);
 
 }
 
@@ -265,6 +270,9 @@ $bookExtracts4 = [
 $editors4 = [ 
     "Aire Libre", "Albin Michel", "Rochette", "Editions Delcourt",  "Glénat"
 ];
+$publishing_house4 = [
+    "Actes Sud Junior", "Albin Michel", "Amaterra", "Autrement", "Auzou",
+];
 
 $collections4 = [ 
     "Fiction", "Fiction", "Education", "Famille",  "Biographie"
@@ -278,46 +286,45 @@ $OLanguage4 = [
 ];
 
 $availability4 = [
-     'en stock', 'en stock', 'épuisé', 'en stock','en stock',
+     'en stock', 'en stock', 'épuisé', 'en stock', 'en stock',
     ];
+
     $stock4 = [
         40, 32, 0, 29, 28
     ];
 
     $price4 = [
-        32, 18.9 , 28 ,27.95 , 22
+        3200, 1890 , 2800 ,2795 , 2200
     ];
 
 $agegroup4 = new AgeGroup();
 $agegroup4->setMinAge(15);
 $agegroup4->setMaxAge(18);
-$agegroup4->setName("Jeunes adultes");
+$agegroup4->setCategory("Jeunes adultes");
 
 for ($i=0; $i < count($booknames3); $i++) { 
-$photo4 = new BookPhoto();
-$photo4->setLink("public/images/romans-jeunesse/".$bookphotos4[$i]);
 $book4 = new Book();
+$book4->setCoverPhoto($bookphotos4[$i]);
 $book4->setTitle($booknames4[$i]);
 $book4->setExtract($bookExtracts4[$i]);
 $book4->setEditor($editors4[$i]);
-$book4->setPublishingHouse($editors4[$i]);
-$book4->setPublicationDate(2020);
+$book4->setPublishingHouse($publishing_house4[$i]);
+$book4->setPublicationDate(new \DateTime("2019-02-19"));
 $book4->setCollection($collections4[$i]);
 $book4->setEANCode($ean4[$i]);
 $book4->setISBNCode(rand(1000000000, 9999999999));
-$book4->setNumberPages(rand(30, 150));
-$book4->setDimensions(rand(30, 50));
+$book4->setNumberPages(rand(100, 250));
+$book4->setDimensionH(rand(20, 50));
+$book4->setDimensionW(rand(15, 40));
 $book4->setWeight(rand(300, 600));
 $book4->setLanguage("Français");
 $book4->setOriginalLanguage($OLanguage4[$i]);
-$book4->setAvailability($availability4[$i]);
+// $book4->setAvailability($availability4[$i]);
 $book4->setStock($stock4[$i]);
 $book4->setPrice($price4[$i]);
 $book4->setAgeGroup($agegroup4);
-$photo4->setBook($book4);
 $manager->persist($agegroup4);
 $manager->persist($book4);
-$manager->persist($photo4);
 }
 
 

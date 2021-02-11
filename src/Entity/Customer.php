@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  */
@@ -47,7 +46,7 @@ class Customer implements UserInterface
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=5)
+     * @ORM\Column(type="string", length=6)
      */
     private $postal_code;
 
@@ -57,7 +56,7 @@ class Customer implements UserInterface
     private $city;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $age;
 
@@ -72,37 +71,31 @@ class Customer implements UserInterface
     private $newsletter;
 
     /**
-     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="customer")
+     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="customer", orphanRemoval=true)
      */
     private $bookings;
 
     /**
-     * @ORM\OneToMany(targetEntity=CustomerComment::class, mappedBy="customer")
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="customer", orphanRemoval=true)
      */
-    private $customerComments;
+    private $orders;
 
     /**
-     * @ORM\OneToMany(targetEntity=CustomerOrder::class, mappedBy="customer")
+     * @ORM\OneToMany(targetEntity=CustomerComment::class, mappedBy="customer", orphanRemoval=true)
      */
-    private $customerOrders;
+    private $customer_comment;
 
     /**
-     * @ORM\OneToMany(targetEntity=CustomerNotation::class, mappedBy="customer")
+     * @ORM\OneToMany(targetEntity=CustomerNotation::class, mappedBy="customer", orphanRemoval=true)
      */
     private $customerNotations;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="customer_booking")
-     */
-    private $booking;
 
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
-        $this->customerComments = new ArrayCollection();
-        $this->customerOrders = new ArrayCollection();
+        $this->orders = new ArrayCollection();
+        $this->customer_comment = new ArrayCollection();
         $this->customerNotations = new ArrayCollection();
-        $this->booking = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,12 +187,12 @@ class Customer implements UserInterface
         return $this;
     }
 
-    public function getAge(): ?int
+    public function getAge(): ?string
     {
         return $this->age;
     }
 
-    public function setAge(int $age): self
+    public function setAge(?string $age): self
     {
         $this->age = $age;
 
@@ -261,17 +254,47 @@ class Customer implements UserInterface
     }
 
     /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getCustomer() === $this) {
+                $order->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection|CustomerComment[]
      */
-    public function getCustomerComments(): Collection
+    public function getCustomerComment(): Collection
     {
-        return $this->customerComments;
+        return $this->customer_comment;
     }
 
     public function addCustomerComment(CustomerComment $customerComment): self
     {
-        if (!$this->customerComments->contains($customerComment)) {
-            $this->customerComments[] = $customerComment;
+        if (!$this->customer_comment->contains($customerComment)) {
+            $this->customer_comment[] = $customerComment;
             $customerComment->setCustomer($this);
         }
 
@@ -280,40 +303,10 @@ class Customer implements UserInterface
 
     public function removeCustomerComment(CustomerComment $customerComment): self
     {
-        if ($this->customerComments->removeElement($customerComment)) {
+        if ($this->customer_comment->removeElement($customerComment)) {
             // set the owning side to null (unless already changed)
             if ($customerComment->getCustomer() === $this) {
                 $customerComment->setCustomer(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|CustomerOrder[]
-     */
-    public function getCustomerOrders(): Collection
-    {
-        return $this->customerOrders;
-    }
-
-    public function addCustomerOrder(CustomerOrder $customerOrder): self
-    {
-        if (!$this->customerOrders->contains($customerOrder)) {
-            $this->customerOrders[] = $customerOrder;
-            $customerOrder->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCustomerOrder(CustomerOrder $customerOrder): self
-    {
-        if ($this->customerOrders->removeElement($customerOrder)) {
-            // set the owning side to null (unless already changed)
-            if ($customerOrder->getCustomer() === $this) {
-                $customerOrder->setCustomer(null);
             }
         }
 
@@ -350,28 +343,20 @@ class Customer implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Booking[]
-     */
-    public function getBooking(): Collection
+    public function eraseCredentials()
     {
-        return $this->booking;
     }
 
     public function getSalt()
     {
-        
     }
+
     public function getUsername()
     {
-        
-    }
-    public function getRoles(){
-
     }
 
-    public function eraseCredentials()
+    public function getRoles()
     {
-        
+        return ['ROLE_USER'];
     }
 }

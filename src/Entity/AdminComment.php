@@ -18,14 +18,9 @@ class AdminComment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Admin::class, inversedBy="adminComments")
+     * @ORM\Column(type="text")
      */
-    private $admin;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Book::class, inversedBy="adminComments")
-     */
-    private $book;
+    private $content;
 
     /**
      * @ORM\Column(type="datetime")
@@ -33,40 +28,28 @@ class AdminComment
     private $created_at;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\OneToOne(targetEntity=Book::class, inversedBy="adminComment", cascade={"persist", "remove"})
      */
-    private $content;
+    private $book;
 
     /**
-     * @ORM\OneToOne(targetEntity=Book::class, mappedBy="admin_comment", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Book::class, inversedBy="admin_comment")
      */
-    private $book_comment_admin;
+    private $book_name;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getAdmin(): ?Admin
+    public function getContent(): ?string
     {
-        return $this->admin;
+        return $this->content;
     }
 
-    public function setAdmin(?Admin $admin): self
+    public function setContent(string $content): self
     {
-        $this->admin = $admin;
-
-        return $this;
-    }
-
-    public function getBook(): ?Book
-    {
-        return $this->book;
-    }
-
-    public function setBook(?Book $book): self
-    {
-        $this->book = $book;
+        $this->content = $content;
 
         return $this;
     }
@@ -83,36 +66,26 @@ class AdminComment
         return $this;
     }
 
-    public function getContent(): ?string
+    public function getBook(): ?Book
     {
-        return $this->content;
+        return $this->book;
     }
 
-    public function setContent(string $content): self
+    public function setBook(?Book $book): self
     {
-        $this->content = $content;
+        $this->book = $book;
 
         return $this;
     }
 
-    public function getBookCommentAdmin(): ?Book
+    public function getBookName(): ?Book
     {
-        return $this->book_comment_admin;
+        return $this->book_name;
     }
 
-    public function setBookCommentAdmin(?Book $book_comment_admin): self
+    public function setBookName(?Book $book_name): self
     {
-        // unset the owning side of the relation if necessary
-        if ($book_comment_admin === null && $this->book_comment_admin !== null) {
-            $this->book_comment_admin->setAdminComment(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($book_comment_admin !== null && $book_comment_admin->getAdminComment() !== $this) {
-            $book_comment_admin->setAdminComment($this);
-        }
-
-        $this->book_comment_admin = $book_comment_admin;
+        $this->book_name = $book_name;
 
         return $this;
     }

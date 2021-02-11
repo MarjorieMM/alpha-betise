@@ -18,23 +18,37 @@ class CustomerNotation
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="customerNotations")
-     */
-    private $customer;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Book::class, inversedBy="customerNotations")
-     */
-    private $book;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $notation;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="customerNotations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $customer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Book::class, inversedBy="customer_notation")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $book;
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getNotation(): ?int
+    {
+        return $this->notation;
+    }
+
+    public function setNotation(int $notation): self
+    {
+        $this->notation = $notation;
+
+        return $this;
     }
 
     public function getCustomer(): ?Customer
@@ -57,18 +71,6 @@ class CustomerNotation
     public function setBook(?Book $book): self
     {
         $this->book = $book;
-
-        return $this;
-    }
-
-    public function getNotation(): ?int
-    {
-        return $this->notation;
-    }
-
-    public function setNotation(int $notation): self
-    {
-        $this->notation = $notation;
 
         return $this;
     }

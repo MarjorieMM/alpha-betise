@@ -31,18 +31,13 @@ class CustomerFixtures extends Fixture
             $firstname = $faker->firstname($gender);
             $lastname = $faker->lastName;
             $email = $faker->email;
-            $photo = 'https://randomcustomer.me/api/portraits/';
-            $photoId = $faker->numberBetween(1, 99).'.jpg';
-            $photo .= ($gender == 'male' ? 'men/' : 'women/').$photoId;
             $hash = $this->encoder->encodePassword($customer, 'password');
-            $address = $faker->address;
+            $address = $faker->streetAddress;
             $city = $faker->city;
-            
-            $customer->setFirstname($firstname)
-            ->setLastname($lastname)
+            $customer->setLastname($lastname)
+            ->setFirstname($firstname)
             ->setEmail($email)
             ->setPassword($hash)
-            ->setPhoto($photo)
             ->setAge(rand(0, 18))
             ->setAddress($address)
             ->setPostalCode(rand(01000, 98999))

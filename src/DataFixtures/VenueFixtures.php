@@ -17,12 +17,12 @@ class VenueFixtures extends Fixture
 
 for ($i=0; $i < count($venues); $i++) { 
  $venue = new Venue();
- $address = $faker->address;
+ $address = $faker->streetAddress;
  $city = $faker->city;
 
  $venue->setName($venues[$i])
  ->setAddress($address)
- ->setPostalCode(rand(01000, 98999))
+ ->setPostalCode(rand(14000, 14200))
  ->setCity($city);
 $manager->persist($venue);
 }        

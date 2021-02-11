@@ -30,7 +30,7 @@ class Venue
     private $address;
 
     /**
-     * @ORM\Column(type="string", length=5)
+     * @ORM\Column(type="string", length=6)
      */
     private $postal_code;
 

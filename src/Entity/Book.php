@@ -37,10 +37,25 @@ class Book
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $cover_photo;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo_1;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo_2;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $publishing_house;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="date")
      */
     private $publication_date;
 
@@ -67,7 +82,12 @@ class Book
     /**
      * @ORM\Column(type="integer")
      */
-    private $dimensions;
+    private $dimension_h;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $dimension_w;
 
     /**
      * @ORM\Column(type="integer")
@@ -85,11 +105,6 @@ class Book
     private $original_language;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $availability;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $stock;
@@ -100,23 +115,39 @@ class Book
     private $price;
 
     /**
-     * @ORM\ManyToOne(targetEntity=AgeGroup::class, inversedBy="books")
+     * @ORM\ManyToMany(targetEntity=Author::class, mappedBy="books")
+     */
+    private $authors;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Availability::class, inversedBy="books")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $age_group;
+    private $availability;
 
     /**
-     * @ORM\OneToMany(targetEntity=BookPhoto::class, mappedBy="book")
+     * @ORM\ManyToOne(targetEntity=AgeGroup::class, inversedBy="books")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $photo;
+    private $ageGroup;
 
     /**
-     * @ORM\OneToMany(targetEntity=AdminComment::class, mappedBy="book")
+     * @ORM\ManyToMany(targetEntity=Order::class, mappedBy="books")
      */
-    private $adminComments;
+    private $orders;
 
     /**
-     * @ORM\OneToOne(targetEntity=AdminComment::class, inversedBy="book_comment_admin", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=OrderBook::class, mappedBy="book")
+     */
+    private $orderBooks;
+
+    /**
+     * @ORM\OneToOne(targetEntity=AdminComment::class, mappedBy="book", cascade={"persist", "remove"})
+     */
+    private $adminComment;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AdminComment::class, mappedBy="book_name")
      */
     private $admin_comment;
 
@@ -128,31 +159,21 @@ class Book
     /**
      * @ORM\OneToMany(targetEntity=CustomerComment::class, mappedBy="book")
      */
-    private $customerComments;
+    private $customer_comment;
 
     /**
-     * @ORM\OneToMany(targetEntity=CustomerOrderBook::class, mappedBy="book")
+     * @ORM\OneToMany(targetEntity=CustomerNotation::class, mappedBy="book", orphanRemoval=true)
      */
-    private $customerOrderBooks;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Author::class, mappedBy="book")
-     */
-    private $authors;
-
-    /**
-     * @ORM\OneToMany(targetEntity=CustomerNotation::class, mappedBy="book")
-     */
-    private $customerNotations;
+    private $customer_notation;
 
     public function __construct()
     {
-        $this->photo = new ArrayCollection();
-        $this->adminComments = new ArrayCollection();
-        $this->customerComments = new ArrayCollection();
-        $this->customerOrderBooks = new ArrayCollection();
         $this->authors = new ArrayCollection();
-        $this->customerNotations = new ArrayCollection();
+        $this->orders = new ArrayCollection();
+        $this->orderBooks = new ArrayCollection();
+        $this->admin_comment = new ArrayCollection();
+        $this->customer_comment = new ArrayCollection();
+        $this->customer_notation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,6 +217,42 @@ class Book
         return $this;
     }
 
+    public function getCoverPhoto(): ?string
+    {
+        return $this->cover_photo;
+    }
+
+    public function setCoverPhoto(string $cover_photo): self
+    {
+        $this->cover_photo = $cover_photo;
+
+        return $this;
+    }
+
+    public function getPhoto1(): ?string
+    {
+        return $this->photo_1;
+    }
+
+    public function setPhoto1(?string $photo_1): self
+    {
+        $this->photo_1 = $photo_1;
+
+        return $this;
+    }
+
+    public function getPhoto2(): ?string
+    {
+        return $this->photo_2;
+    }
+
+    public function setPhoto2(?string $photo_2): self
+    {
+        $this->photo_2 = $photo_2;
+
+        return $this;
+    }
+
     public function getPublishingHouse(): ?string
     {
         return $this->publishing_house;
@@ -208,12 +265,12 @@ class Book
         return $this;
     }
 
-    public function getPublicationDate(): ?int
+    public function getPublicationDate(): ?\DateTimeInterface
     {
         return $this->publication_date;
     }
 
-    public function setPublicationDate(int $publication_date): self
+    public function setPublicationDate(\DateTimeInterface $publication_date): self
     {
         $this->publication_date = $publication_date;
 
@@ -268,14 +325,26 @@ class Book
         return $this;
     }
 
-    public function getDimensions(): ?int
+    public function getDimensionH(): ?int
     {
-        return $this->dimensions;
+        return $this->dimension_h;
     }
 
-    public function setDimensions(int $dimensions): self
+    public function setDimensionH(int $dimension_h): self
     {
-        $this->dimensions = $dimensions;
+        $this->dimension_h = $dimension_h;
+
+        return $this;
+    }
+
+    public function getDimensionW(): ?int
+    {
+        return $this->dimension_w;
+    }
+
+    public function setDimensionW(int $dimension_w): self
+    {
+        $this->dimension_w = $dimension_w;
 
         return $this;
     }
@@ -316,18 +385,6 @@ class Book
         return $this;
     }
 
-    public function getAvailability(): ?string
-    {
-        return $this->availability;
-    }
-
-    public function setAvailability(string $availability): self
-    {
-        $this->availability = $availability;
-
-        return $this;
-    }
-
     public function getStock(): ?int
     {
         return $this->stock;
@@ -348,162 +405,6 @@ class Book
     public function setPrice(int $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getAgeGroup(): ?AgeGroup
-    {
-        return $this->age_group;
-    }
-
-    public function setAgeGroup(?AgeGroup $age_group): self
-    {
-        $this->age_group = $age_group;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|BookPhoto[]
-     */
-    public function getPhoto(): Collection
-    {
-        return $this->photo;
-    }
-
-    public function addPhoto(BookPhoto $photo): self
-    {
-        if (!$this->photo->contains($photo)) {
-            $this->photo[] = $photo;
-            $photo->setBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removePhoto(BookPhoto $photo): self
-    {
-        if ($this->photo->removeElement($photo)) {
-            // set the owning side to null (unless already changed)
-            if ($photo->getBook() === $this) {
-                $photo->setBook(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|AdminComment[]
-     */
-    public function getAdminComments(): Collection
-    {
-        return $this->adminComments;
-    }
-
-    public function addAdminComment(AdminComment $adminComment): self
-    {
-        if (!$this->adminComments->contains($adminComment)) {
-            $this->adminComments[] = $adminComment;
-            $adminComment->setBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAdminComment(AdminComment $adminComment): self
-    {
-        if ($this->adminComments->removeElement($adminComment)) {
-            // set the owning side to null (unless already changed)
-            if ($adminComment->getBook() === $this) {
-                $adminComment->setBook(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getAdminComment(): ?AdminComment
-    {
-        return $this->admin_comment;
-    }
-
-    public function setAdminComment(?AdminComment $admin_comment): self
-    {
-        $this->admin_comment = $admin_comment;
-
-        return $this;
-    }
-
-    public function getAdminNotation(): ?int
-    {
-        return $this->admin_notation;
-    }
-
-    public function setAdminNotation(?int $admin_notation): self
-    {
-        $this->admin_notation = $admin_notation;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|CustomerComment[]
-     */
-    public function getCustomerComments(): Collection
-    {
-        return $this->customerComments;
-    }
-
-    public function addCustomerComment(CustomerComment $customerComment): self
-    {
-        if (!$this->customerComments->contains($customerComment)) {
-            $this->customerComments[] = $customerComment;
-            $customerComment->setBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCustomerComment(CustomerComment $customerComment): self
-    {
-        if ($this->customerComments->removeElement($customerComment)) {
-            // set the owning side to null (unless already changed)
-            if ($customerComment->getBook() === $this) {
-                $customerComment->setBook(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|CustomerOrderBook[]
-     */
-    public function getCustomerOrderBooks(): Collection
-    {
-        return $this->customerOrderBooks;
-    }
-
-    public function addCustomerOrderBook(CustomerOrderBook $customerOrderBook): self
-    {
-        if (!$this->customerOrderBooks->contains($customerOrderBook)) {
-            $this->customerOrderBooks[] = $customerOrderBook;
-            $customerOrderBook->setBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCustomerOrderBook(CustomerOrderBook $customerOrderBook): self
-    {
-        if ($this->customerOrderBooks->removeElement($customerOrderBook)) {
-            // set the owning side to null (unless already changed)
-            if ($customerOrderBook->getBook() === $this) {
-                $customerOrderBook->setBook(null);
-            }
-        }
 
         return $this;
     }
@@ -535,18 +436,185 @@ class Book
         return $this;
     }
 
+    public function getAvailability(): ?Availability
+    {
+        return $this->availability;
+    }
+
+    public function setAvailability(?Availability $availability): self
+    {
+        $this->availability = $availability;
+
+        return $this;
+    }
+
+    public function getAgeGroup(): ?AgeGroup
+    {
+        return $this->ageGroup;
+    }
+
+    public function setAgeGroup(?AgeGroup $ageGroup): self
+    {
+        $this->ageGroup = $ageGroup;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    // public function addOrder(Order $order): self
+    // {
+    //     if (!$this->orders->contains($order)) {
+    //         $this->orders[] = $order;
+    //         $order->addBook($this);
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function removeOrder(Order $order): self
+    // {
+    //     if ($this->orders->removeElement($order)) {
+    //         $order->removeBook($this);
+    //     }
+
+    //     return $this;
+    // }
+
+    /**
+     * @return Collection|OrderBook[]
+     */
+    public function getOrderBooks(): Collection
+    {
+        return $this->orderBooks;
+    }
+
+    public function addOrderBook(OrderBook $orderBook): self
+    {
+        if (!$this->orderBooks->contains($orderBook)) {
+            $this->orderBooks[] = $orderBook;
+            $orderBook->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderBook(OrderBook $orderBook): self
+    {
+        if ($this->orderBooks->removeElement($orderBook)) {
+            // set the owning side to null (unless already changed)
+            if ($orderBook->getBook() === $this) {
+                $orderBook->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAdminComment(): ?AdminComment
+    {
+        return $this->adminComment;
+    }
+
+    public function setAdminComment(?AdminComment $adminComment): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($adminComment === null && $this->adminComment !== null) {
+            $this->adminComment->setBook(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($adminComment !== null && $adminComment->getBook() !== $this) {
+            $adminComment->setBook($this);
+        }
+
+        $this->adminComment = $adminComment;
+
+        return $this;
+    }
+
+    public function addAdminComment(AdminComment $adminComment): self
+    {
+        if (!$this->admin_comment->contains($adminComment)) {
+            $this->admin_comment[] = $adminComment;
+            $adminComment->setBookName($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdminComment(AdminComment $adminComment): self
+    {
+        if ($this->admin_comment->removeElement($adminComment)) {
+            // set the owning side to null (unless already changed)
+            if ($adminComment->getBookName() === $this) {
+                $adminComment->setBookName(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAdminNotation(): ?int
+    {
+        return $this->admin_notation;
+    }
+
+    public function setAdminNotation(?int $admin_notation): self
+    {
+        $this->admin_notation = $admin_notation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CustomerComment[]
+     */
+    public function getCustomerComment(): Collection
+    {
+        return $this->customer_comment;
+    }
+
+    public function addCustomerComment(CustomerComment $customerComment): self
+    {
+        if (!$this->customer_comment->contains($customerComment)) {
+            $this->customer_comment[] = $customerComment;
+            $customerComment->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerComment(CustomerComment $customerComment): self
+    {
+        if ($this->customer_comment->removeElement($customerComment)) {
+            // set the owning side to null (unless already changed)
+            if ($customerComment->getBook() === $this) {
+                $customerComment->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @return Collection|CustomerNotation[]
      */
-    public function getCustomerNotations(): Collection
+    public function getCustomerNotation(): Collection
     {
-        return $this->customerNotations;
+        return $this->customer_notation;
     }
 
     public function addCustomerNotation(CustomerNotation $customerNotation): self
     {
-        if (!$this->customerNotations->contains($customerNotation)) {
-            $this->customerNotations[] = $customerNotation;
+        if (!$this->customer_notation->contains($customerNotation)) {
+            $this->customer_notation[] = $customerNotation;
             $customerNotation->setBook($this);
         }
 
@@ -555,7 +623,7 @@ class Book
 
     public function removeCustomerNotation(CustomerNotation $customerNotation): self
     {
-        if ($this->customerNotations->removeElement($customerNotation)) {
+        if ($this->customer_notation->removeElement($customerNotation)) {
             // set the owning side to null (unless already changed)
             if ($customerNotation->getBook() === $this) {
                 $customerNotation->setBook(null);

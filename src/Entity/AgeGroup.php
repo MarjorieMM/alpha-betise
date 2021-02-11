@@ -20,6 +20,11 @@ class AgeGroup
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $category;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $min_age;
@@ -30,17 +35,12 @@ class AgeGroup
     private $max_age;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Book::class, mappedBy="age_group")
+     * @ORM\OneToMany(targetEntity=Book::class, mappedBy="ageGroup", orphanRemoval=true)
      */
     private $books;
 
     /**
-     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="age_group")
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="ageGroup")
      */
     private $events;
 
@@ -53,6 +53,18 @@ class AgeGroup
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category): self
+    {
+        $this->category = $category;
+
+        return $this;
     }
 
     public function getMinAge(): ?int
@@ -75,18 +87,6 @@ class AgeGroup
     public function setMaxAge(int $max_age): self
     {
         $this->max_age = $max_age;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
 
         return $this;
     }

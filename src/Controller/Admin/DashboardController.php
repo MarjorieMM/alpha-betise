@@ -3,11 +3,16 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Book;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use App\Entity\Venue;
+use App\Entity\Author;
+use App\Entity\Customer;
+use App\Entity\BookPhoto;
+use App\Entity\Event;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -28,7 +33,13 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Book', 'fa fa-tags', Book::class);
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToCrud('Books', 'fa fa-tags', Book::class);
+        yield MenuItem::linkToCrud('BookPhotos', 'fa fa-tags', BookPhoto::class);
+        yield MenuItem::linkToCrud('Authors', 'fa fa-tags', Author::class);
+        yield MenuItem::linkToCrud('Customers', 'fa fa-tags', Customer::class);
+        yield MenuItem::linkToCrud('Venues', 'fa fa-tags', Venue::class);
+        yield MenuItem::linkToCrud('Events', 'fa fa-tags', Event::class);
+        
+     
     }
 }

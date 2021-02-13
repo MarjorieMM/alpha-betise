@@ -7,6 +7,7 @@ use App\Repository\AvailabilityRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=AvailabilityRepository::class)
@@ -23,11 +24,13 @@ class Availability
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("books")
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity=Book::class, mappedBy="availability")
+
      */
     private $books;
 

@@ -7,6 +7,7 @@ use App\Repository\BookRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
@@ -18,91 +19,109 @@ class Book
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("books")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("books")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("books")
      */
     private $extract;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("books")
      */
     private $editor;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("books")
      */
     private $cover_photo;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("books")
      */
     private $photo_1;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("books")
      */
     private $photo_2;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("books")
      */
     private $publishing_house;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups("books")
      */
     private $publication_date;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("books")
      */
     private $collection;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("books")
      */
     private $EAN_code;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("books")
      */
     private $ISBN_code;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("books")
      */
     private $number_pages;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("books")
      */
     private $dimension_h;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("books")
      */
     private $dimension_w;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("books")
      */
     private $weight;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("books")
      */
     private $language;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("books")
      */
     private $original_language;
 
@@ -113,28 +132,33 @@ class Book
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("books")
      */
     private $price;
 
     /**
      * @ORM\ManyToMany(targetEntity=Author::class, mappedBy="books", cascade={"persist"},)
+     *  @Groups("books")
      */
     private $authors;
 
     /**
      * @ORM\ManyToOne(targetEntity=Availability::class, inversedBy="books")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("books")
      */
     private $availability;
 
     /**
      * @ORM\ManyToOne(targetEntity=AgeGroup::class, inversedBy="books")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups("books")
      */
     private $ageGroup;
 
     /**
      * @ORM\ManyToMany(targetEntity=Order::class, mappedBy="books")
+    
      */
     private $orders;
 
@@ -145,6 +169,7 @@ class Book
 
     /**
      * @ORM\OneToOne(targetEntity=AdminComment::class, mappedBy="book", cascade={"persist", "remove"})
+     * @Groups("books")
      */
     private $adminComment;
 
@@ -155,16 +180,19 @@ class Book
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups("books")
      */
     private $admin_notation;
 
     /**
      * @ORM\OneToMany(targetEntity=CustomerComment::class, mappedBy="book")
+     * @Groups("books")
      */
     private $customer_comment;
 
     /**
      * @ORM\OneToMany(targetEntity=CustomerNotation::class, mappedBy="book", orphanRemoval=true)
+     * @Groups("books")
      */
     private $customer_notation;
 

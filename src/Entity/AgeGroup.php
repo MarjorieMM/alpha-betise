@@ -7,6 +7,7 @@ use App\Repository\AgeGroupRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=AgeGroupRepository::class)
@@ -23,6 +24,7 @@ class AgeGroup
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("books")
      */
     private $category;
 

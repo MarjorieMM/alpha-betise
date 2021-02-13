@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AdminCommentRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=AdminCommentRepository::class)
@@ -21,11 +22,13 @@ class AdminComment
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("books")
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("books")
      */
     private $created_at;
 

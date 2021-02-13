@@ -2,12 +2,13 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\AgeGroup;
 use App\Entity\Book;
+use App\Entity\Event;
 use App\Entity\Venue;
 use App\Entity\Author;
+use App\Entity\Booking;
+use App\Entity\AgeGroup;
 use App\Entity\Customer;
-use App\Entity\Event;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -39,6 +40,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Lieux des évènements', 'fa fa-tags', Venue::class);
         yield MenuItem::linkToCrud('groupes d\'âges', 'fa fa-tags', AgeGroup::class);
         yield MenuItem::linkToCrud('Events', 'fa fa-tags', Event::class);
+        yield MenuItem::linkToCrud('Booking', 'fa fa-tags', Booking::class);
         
      
     }

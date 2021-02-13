@@ -7,6 +7,7 @@ use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -19,21 +20,25 @@ class Customer implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("customer")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("customer")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("customer")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("customer")
      */
     private $email;
 
@@ -44,36 +49,43 @@ class Customer implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     *   @Groups("customer")
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=6)
+     *   @Groups("customer")
      */
     private $postal_code;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *   @Groups("customer")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *   @Groups("customer")
      */
     private $age;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *   @Groups("customer")
      */
     private $photo;
 
     /**
      * @ORM\Column(type="boolean")
+     *   @Groups("customer")
      */
     private $newsletter;
 
     /**
      * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="customer", orphanRemoval=true)
+     *  @Groups("customer")
      */
     private $bookings;
 
@@ -127,6 +139,11 @@ class Customer implements UserInterface
         $this->firstname = $firstname;
 
         return $this;
+    }
+
+    public function getFullname(): ?string
+    {
+        return $this->firstname ." ". $this->lastname;
     }
 
     public function getEmail(): ?string
@@ -360,5 +377,10 @@ class Customer implements UserInterface
     public function getRoles()
     {
         return ['ROLE_USER'];
+    }
+
+    public function __toString()
+    {
+        return $this->getFullname();
     }
 }

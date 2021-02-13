@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CustomerNotationRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerNotationRepository::class)
@@ -21,6 +22,7 @@ class CustomerNotation
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("books")
      */
     private $notation;
 

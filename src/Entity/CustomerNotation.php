@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CustomerNotationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\CustomerNotationRepository;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerNotationRepository::class)
+ *  @ApiResource
  */
 class CustomerNotation
 {

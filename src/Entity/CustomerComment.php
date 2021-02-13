@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CustomerCommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\CustomerCommentRepository;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerCommentRepository::class)
+ *  @ApiResource
  */
 class CustomerComment
 {

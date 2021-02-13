@@ -28,13 +28,10 @@ class BookCrudController extends AbstractCrudController
             ->setRequired(false),
             TextField::new('title'),
             TextEditorField::new('extract'),
-            AssociationField::new('photo')->formatValue(function ($value, $entity) {
-                $str = $entity->getphoto()[0];
-                for ($i = 1; $i < $entity->getphoto()->count(); $i++) {
-                    $str = $str . ", " . $entity->getphoto()[$i];
-                }
-                return $str;
-              }),
+            ImageField::new('cover_photo')
+            ->setUploadDir('public/images/')
+            ->setBasePath('images/')
+            ->setRequired(false),
             TextField::new('editor'),
             TextField::new('publishing_house'),
             DateField::new('publication_date'),
@@ -50,7 +47,7 @@ class BookCrudController extends AbstractCrudController
             AssociationField::new('availability'),
             IntegerField::new('stock'),
             MoneyField::new('price')->setCurrency('EUR'),
-            AssociationField::new('age_group'),
+            AssociationField::new('ageGroup'),
             // AssociationField::new('adminComments'),
             // TextField::new('admin_notation'),
             // AssociationField::new('customerOrderBooks'),
@@ -67,3 +64,11 @@ class BookCrudController extends AbstractCrudController
 
     
 }
+
+// ->formatValue(function ($value, $entity) {
+//     $str = $entity->getphoto()[0];
+//     for ($i = 1; $i < $entity->getphoto()->count(); $i++) {
+//         $str = $str . ", " . $entity->getphoto()[$i];
+//     }
+//     return $str;
+//   }),

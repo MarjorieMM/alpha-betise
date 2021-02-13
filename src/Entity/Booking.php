@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\BookingRepository;
+use App\Entity\Customer;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BookingRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
+ *  @ApiResource
  */
 class Booking
 {

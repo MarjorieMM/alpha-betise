@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\AgeGroupRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AgeGroupRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=AgeGroupRepository::class)
+ *  @ApiResource
  */
 class AgeGroup
 {
@@ -150,4 +152,10 @@ class AgeGroup
 
         return $this;
     }
+    public function __toString()
+    {
+        return $this->getCategory();
+    }
+
+    
 }

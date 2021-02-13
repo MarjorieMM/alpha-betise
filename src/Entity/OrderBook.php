@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\OrderBookRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\OrderBookRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=OrderBookRepository::class)
+ *  @ApiResource
  */
 class OrderBook
 {

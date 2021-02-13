@@ -2,18 +2,19 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Author;
+use App\Entity\Booking;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class AuthorCrudController extends AbstractCrudController
+class BookingCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Author::class;
+        return Booking::class;
     }
 
     
@@ -22,9 +23,9 @@ class AuthorCrudController extends AbstractCrudController
         return [
             IdField::new('id')
             ->setRequired(false),
-            TextField::new('firstname'),
-            TextField::new('lastname'),
-            AssociationField::new('books')
+            IntegerField::new('number_participants'),
+            AssociationField::new('customer'),
+            AssociationField::new('event'),
         ];
     }
     

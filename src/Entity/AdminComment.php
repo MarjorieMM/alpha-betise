@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\AdminCommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AdminCommentRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=AdminCommentRepository::class)
+ *  @ApiResource
  */
 class AdminComment
 {

@@ -2,29 +2,28 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Author;
+use App\Entity\AgeGroup;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 
-class AuthorCrudController extends AbstractCrudController
+class AgeGroupCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Author::class;
+        return AgeGroup::class;
     }
 
     
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')
-            ->setRequired(false),
-            TextField::new('firstname'),
-            TextField::new('lastname'),
-            AssociationField::new('books')
+            IdField::new('id'),
+            TextField::new('category'),
+            IntegerField::new('min_age'),
+            IntegerField::new('max_age'),
         ];
     }
     

@@ -45,10 +45,6 @@ class BookFixtures extends Fixture
     $OLanguage = [
         'français', 'anglais', 'espagnol', 'français', 'français'
     ];
-
-    $availability = [
-        'en stock', 'en stock', 'en commande',  'épuisé', 'en stock'
-            ];
             $stock = [
                 15, 22, 0, 0, 30
             ];
@@ -79,7 +75,6 @@ $book->setDimensionW(rand(15, 40));
 $book->setWeight(rand(300, 600));
 $book->setLanguage("Français");
 $book->setOriginalLanguage($OLanguage[$i]);
-// $book->setAvailability($availability[$i]);
 $book->setStock($stock[$i]);
 $book->setPrice($price[$i]);
 $book->setAgeGroup($agegroup);
@@ -93,7 +88,7 @@ $booknames2 = [
     "Cachée ou pas, j'arrive", "La Cantoche", "La Nuit de Berk", "Le Chat Ritable", "Les P'tites Poules", "Les Pierre A Feu", "Mimose et Sam", "Veangeance de Cornebidouille"
 ];
 $bookphotos2 = [
-    "cacheeOuPasJarrive.jpg", "la-cantoche.jpg", "LaNuitDeBerk.jpg", "LeChatRitable.jpg", "LesPierresAFeu.jpg", "LesPtitesPoules.jpg", "MimoseEtSam.jpg", "VeangeanceCornebidouille.jpg"
+    "cacheeOuPasJarrive.jpg", "la-cantoche.jpg", "LaNuitDeBerk.jpg", "LeChatRitable.jpg", "LesPierresAFeu.jpg", "LesPtitesPoules.jpg", "MimoseEtSam.jpg", "VengeanceCornebidouille.jpg"
 ];
 $bookExtracts2 = [
     "Une partie de cache-cache écrite et dessinée à quatre mains. Lolita Séchan et Camille Jourdy s'amusent à faire jouer leur personnages respectifs dans l'univers de la famille Biloba. à partir de 4 ans.",
@@ -124,9 +119,7 @@ $OLanguage2 = [
 'français', 'anglais', 'espagnol', 'français', 'français', 'français', 'français', 'anglais'
 ];
 
-$availability2 = [
-    'momentanément indisponible', 'en stock', 'en commande',  'en stock', 'en stock', 'en stock', 'épuisé', 'en stock'
-    ];
+
     $stock2 = [
         0, 12, 0, 20, 30, 15, 0, 34
     ];
@@ -158,7 +151,6 @@ $book2->setDimensionW(rand(15, 40));
 $book2->setWeight(rand(300, 600));
 $book2->setLanguage("Français");
 $book2->setOriginalLanguage($OLanguage2[$i]);
-// $book2->setAvailability($availability2[$i]);
 $book2->setStock($stock2[$i]);
 $book2->setPrice($price2[$i]);
 $book2->setAgeGroup($agegroup2);
@@ -171,7 +163,7 @@ $booknames3 = [
     "Coraline", "Ickabog", "Le Château de Hurle", "Le Château des Nuages", "Petit Vampire"
 ];
 $bookphotos3 = [
-    "Coraline.jpg", "Ickabog.jpg", "leChateauDesNuages.jpg", "leChateauHurle.jpg", "PetitVampire.jpg"
+    "Coraline.jpg", "Ickabog.jpg", "leChateauDesNuages.jpg", "leChateauDeHurle.jpg", "PetitVampire.jpg"
 ];
 $bookExtracts3 = [
     "Coraline vient d'emménager dans une étrange maison et, comme ses parents n'ont pas le temps de s'occuper d'elle, elle décide de jouer les exploratrices. Ouvrant une porte condamnée, elle pénètre dans un appartement identique au sien. Identique, et pourtant... Dans la droite ligne d'Alice au pays des merveilles, ce roman à l'atmosphère inoubliable a déjà conquis des millions de lecteurs. A partir de 13 ans",
@@ -206,9 +198,6 @@ $OLanguage3 = [
 'français', 'anglais', 'français', 'anglais', 'français'
 ];
 
-$availability3 = [
-     'en stock', 'en commande', 'épuisé', 'en stock','momentanément indisponible',
-    ];
     $stock3 = [
         45, 0, 0, 28, 0
     ];
@@ -239,7 +228,6 @@ $book3->setDimensionW(rand(15, 40));
 $book3->setWeight(rand(300, 600));
 $book3->setLanguage("Français");
 $book3->setOriginalLanguage($OLanguage3[$i]);
-// $book3->setAvailability($availability3[$i]);
 $book3->setStock($stock3[$i]);
 $book3->setPrice($price3[$i]);
 $book3->setAgeGroup($agegroup3);
@@ -285,9 +273,6 @@ $OLanguage4 = [
 'français', 'anglais', 'anglais', 'anglais', 'français'
 ];
 
-$availability4 = [
-     'en stock', 'en stock', 'épuisé', 'en stock', 'en stock',
-    ];
 
     $stock4 = [
         40, 32, 0, 29, 28
@@ -319,17 +304,12 @@ $book4->setDimensionW(rand(15, 40));
 $book4->setWeight(rand(300, 600));
 $book4->setLanguage("Français");
 $book4->setOriginalLanguage($OLanguage4[$i]);
-// $book4->setAvailability($availability4[$i]);
 $book4->setStock($stock4[$i]);
 $book4->setPrice($price4[$i]);
 $book4->setAgeGroup($agegroup4);
 $manager->persist($agegroup4);
 $manager->persist($book4);
 }
-
-
-
-
-        $manager->flush();
+    $manager->flush();
     }
 }

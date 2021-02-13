@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\BookRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BookRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
+ *  @ApiResource
  */
 class Book
 {
@@ -115,7 +117,7 @@ class Book
     private $price;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Author::class, mappedBy="books")
+     * @ORM\ManyToMany(targetEntity=Author::class, mappedBy="books", cascade={"persist"},)
      */
     private $authors;
 
@@ -127,7 +129,7 @@ class Book
 
     /**
      * @ORM\ManyToOne(targetEntity=AgeGroup::class, inversedBy="books")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $ageGroup;
 
@@ -179,6 +181,11 @@ class Book
     public function getId(): ?int
     {
         return $this->id;
+    }
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getTitle(): ?string
@@ -631,5 +638,10 @@ class Book
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 }

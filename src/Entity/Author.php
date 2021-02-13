@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\AuthorRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AuthorRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=AuthorRepository::class)
+ *  @ApiResource
  */
 class Author
 {
@@ -43,6 +45,11 @@ class Author
     {
         return $this->id;
     }
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
 
 
     public function getLastname(): ?string
@@ -59,6 +66,10 @@ class Author
     public function getFirstname(): ?string
     {
         return $this->firstname;
+    }
+
+    public function getFullname(){
+        return $this->firstname ." ". $this->lastname;
     }
 
     public function setFirstname(string $firstname): self
@@ -90,5 +101,10 @@ class Author
         $this->books->removeElement($book);
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getFullname();
     }
 }

@@ -41,6 +41,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('groupes d\'âges', 'fa fa-tags', AgeGroup::class);
         yield MenuItem::linkToCrud('Events', 'fa fa-tags', Event::class);
         yield MenuItem::linkToCrud('Booking', 'fa fa-tags', Booking::class);
+        yield MenuItem::linkToCrud('Customers', 'fa fa-tags', Customer::class);
         
      
     }

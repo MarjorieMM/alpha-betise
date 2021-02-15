@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
 class CustomerCrudController extends AbstractCrudController
 {
@@ -23,8 +24,6 @@ class CustomerCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id')
-            ->setRequired(false),
             TextField::new('lastname'),
             TextField::new('firstname'),
             EmailField::new('email'),
@@ -36,6 +35,7 @@ class CustomerCrudController extends AbstractCrudController
             ->setUploadDir('public/images/')
             ->setBasePath('images/'),
             BooleanField::new('newsletter'),
+            AssociationField::new('bookings')
       
 
         ];

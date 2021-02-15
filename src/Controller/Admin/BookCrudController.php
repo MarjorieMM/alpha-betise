@@ -51,7 +51,8 @@ class BookCrudController extends AbstractCrudController
             // AssociationField::new('adminComments'),
             // TextField::new('admin_notation'),
             // AssociationField::new('customerOrderBooks'),
-            AssociationField::new('authors')->formatValue(function ($value, $entity) {
+            AssociationField::new('authors')
+            ->formatValue(function ($value, $entity) {
                 $str = $entity->getAuthors()[0];
                 for ($i = 1; $i < $entity->getAuthors()->count(); $i++) {
                     $str = $str . ", " . $entity->getAuthors()[$i];

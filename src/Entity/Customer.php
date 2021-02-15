@@ -20,7 +20,7 @@ class Customer implements UserInterface
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      * @Groups("customers")
      */

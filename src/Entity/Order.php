@@ -33,21 +33,14 @@ class Order
     private $created_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="orders")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity=OrderBook::class, mappedBy="orderid", orphanRemoval=true)
      */
-    private $customer;
-
-    /**
-     * @ORM\OneToMany(targetEntity=OrderBook::class, mappedBy="orderid")
-     */
-    private $orderBooks;
+    private $orderbooks;
 
     public function __construct()
     {
-        $this->orderBooks = new ArrayCollection();
+        $this->orderbooks = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -78,42 +71,30 @@ class Order
         return $this;
     }
 
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): self
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|OrderBook[]
+     * @return Collection|Orderbook[]
      */
-    public function getOrderBooks(): Collection
+    public function getOrderbooks(): Collection
     {
-        return $this->orderBooks;
+        return $this->orderbooks;
     }
 
-    public function addOrderBook(OrderBook $orderBook): self
+    public function addOrderbook(Orderbook $orderbook): self
     {
-        if (!$this->orderBooks->contains($orderBook)) {
-            $this->orderBooks[] = $orderBook;
-            $orderBook->setOrderid($this);
+        if (!$this->orderbooks->contains($orderbook)) {
+            $this->orderbooks[] = $orderbook;
+            $orderbook->setOrderid($this);
         }
 
         return $this;
     }
 
-    public function removeOrderBook(OrderBook $orderBook): self
+    public function removeOrderbook(Orderbook $orderbook): self
     {
-        if ($this->orderBooks->removeElement($orderBook)) {
+        if ($this->orderbooks->removeElement($orderbook)) {
             // set the owning side to null (unless already changed)
-            if ($orderBook->getOrderid() === $this) {
-                $orderBook->setOrderid(null);
+            if ($orderbook->getOrderid() === $this) {
+                $orderbook->setOrderid(null);
             }
         }
 

@@ -25,14 +25,17 @@ class OrderBook
     private $quantity;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Book::class, inversedBy="orderBooks")
+     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderbooks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $orderid;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Book::class, inversedBy="orderbooks")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $book;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderBooks")
-     */
-    private $orderid;
 
     public function getId(): ?int
     {
@@ -51,18 +54,6 @@ class OrderBook
         return $this;
     }
 
-    public function getBook(): ?Book
-    {
-        return $this->book;
-    }
-
-    public function setBook(?Book $book): self
-    {
-        $this->book = $book;
-
-        return $this;
-    }
-
     public function getOrderid(): ?Order
     {
         return $this->orderid;
@@ -71,6 +62,18 @@ class OrderBook
     public function setOrderid(?Order $orderid): self
     {
         $this->orderid = $orderid;
+
+        return $this;
+    }
+
+    public function getBook(): ?Book
+    {
+        return $this->book;
+    }
+
+    public function setBook(?Book $book): self
+    {
+        $this->book = $book;
 
         return $this;
     }

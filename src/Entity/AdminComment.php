@@ -33,14 +33,16 @@ class AdminComment
     private $created_at;
 
     /**
-     * @ORM\OneToOne(targetEntity=Book::class, inversedBy="adminComment", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Book::class, inversedBy="admincomments")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $book;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Book::class, inversedBy="admin_comment")
+     * @ORM\ManyToOne(targetEntity=Admin::class, inversedBy="admincomments")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $book_name;
+    private $admin;
 
     public function getId(): ?int
     {
@@ -83,15 +85,16 @@ class AdminComment
         return $this;
     }
 
-    public function getBookName(): ?Book
+    public function getAdmin(): ?Admin
     {
-        return $this->book_name;
+        return $this->admin;
     }
 
-    public function setBookName(?Book $book_name): self
+    public function setAdmin(?Admin $admin): self
     {
-        $this->book_name = $book_name;
+        $this->admin = $admin;
 
         return $this;
     }
+
 }

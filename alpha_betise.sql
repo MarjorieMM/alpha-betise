@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : ven. 12 fév. 2021 à 21:02
+-- Généré le : lun. 15 fév. 2021 à 18:50
 -- Version du serveur :  5.7.33-0ubuntu0.18.04.1
 -- Version de PHP : 7.4.15
 
@@ -43,10 +43,10 @@ CREATE TABLE `admin` (
 
 CREATE TABLE `admin_comment` (
   `id` int(11) NOT NULL,
-  `book_id` int(11) DEFAULT NULL,
-  `book_name_id` int(11) DEFAULT NULL,
+  `book_id` int(11) NOT NULL,
   `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL
+  `created_at` datetime NOT NULL,
+  `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -198,7 +198,7 @@ INSERT INTO `availability` (`id`, `name`) VALUES
 CREATE TABLE `book` (
   `id` int(11) NOT NULL,
   `availability_id` int(11) DEFAULT NULL,
-  `age_group_id` int(11) NOT NULL,
+  `age_group_id` int(11) DEFAULT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `extract` longtext COLLATE utf8mb4_unicode_ci,
   `editor` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -263,6 +263,13 @@ CREATE TABLE `booking` (
   `number_participants` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `booking`
+--
+
+INSERT INTO `booking` (`id`, `customer_id`, `event_id`, `number_participants`) VALUES
+(1, 17, 1, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -276,7 +283,7 @@ CREATE TABLE `customer` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `postal_code` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `postalcode` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `age` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -287,7 +294,7 @@ CREATE TABLE `customer` (
 -- Déchargement des données de la table `customer`
 --
 
-INSERT INTO `customer` (`id`, `lastname`, `firstname`, `email`, `password`, `address`, `postal_code`, `city`, `age`, `photo`, `newsletter`) VALUES
+INSERT INTO `customer` (`id`, `lastname`, `firstname`, `email`, `password`, `address`, `postalcode`, `city`, `age`, `photo`, `newsletter`) VALUES
 (1, 'Aubert', 'Charles', 'DaSilva.Therese@hotmail.fr', '$2y$13$BFKD0VWZfazat/unh/TOvO6JonbK6Nj7.ZMJ0YZJxVpAVjEkhjCsa', '20, place Marcelle Leblanc', '8944', 'MunozVille', '7', NULL, 0),
 (2, 'Masson', 'Daniel', 'Paul03@Michel.com', '$2y$13$sIKiXOnYFtFAqFnejBI8FOZYxVf1uI/z8sXFdVTARkWOrbIlIS39i', '719, impasse Julie Guillaume', '4159', 'Nicolasnec', '5', NULL, 1),
 (3, 'Hubert', 'Adèle', 'eCohen@club-internet.fr', '$2y$13$kz9DFTFFZdx1GfvL6u5bFeVJIyzMByEpazIBpGKk0JWyorWwzq/GG', '770, impasse Théodore Boutin', '24761', 'Garciadan', '15', NULL, 1),
@@ -354,7 +361,9 @@ CREATE TABLE `doctrine_migration_versions` (
 --
 
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-('DoctrineMigrations\\Version20210211211307', '2021-02-11 22:13:20', 3181);
+('DoctrineMigrations\\Version20210211211307', '2021-02-11 22:13:20', 3181),
+('DoctrineMigrations\\Version20210215173632', '2021-02-15 18:36:43', 725),
+('DoctrineMigrations\\Version20210215174814', '2021-02-15 18:48:26', 342);
 
 -- --------------------------------------------------------
 
@@ -378,6 +387,13 @@ CREATE TABLE `event` (
   `max_participants` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Déchargement des données de la table `event`
+--
+
+INSERT INTO `event` (`id`, `age_group_id`, `venue_id`, `title`, `photo`, `category`, `date`, `duration`, `presentation`, `booking_required`, `free`, `price`, `max_participants`) VALUES
+(1, 18, 3, 'Rencontres 2021', 'img4-996x498.jpg', 'Rencontres', '2021-03-12 00:00:00', '1970-01-01 01:00:00', '<div>Rencontres du livre éditions 2021 regroupant de nombreux auteurs à succès.<br>Venez nous rencontrer !</div>', 1, 0, 2000, 6);
+
 -- --------------------------------------------------------
 
 --
@@ -386,7 +402,6 @@ CREATE TABLE `event` (
 
 CREATE TABLE `order` (
   `id` int(11) NOT NULL,
-  `customer_id` int(11) NOT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -399,8 +414,8 @@ CREATE TABLE `order` (
 
 CREATE TABLE `order_book` (
   `id` int(11) NOT NULL,
-  `book_id` int(11) DEFAULT NULL,
-  `orderid_id` int(11) DEFAULT NULL,
+  `book_id` int(11) NOT NULL,
+  `orderid_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -414,7 +429,7 @@ CREATE TABLE `venue` (
   `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `postal_code` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `postalcode` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
   `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -422,7 +437,7 @@ CREATE TABLE `venue` (
 -- Déchargement des données de la table `venue`
 --
 
-INSERT INTO `venue` (`id`, `name`, `address`, `postal_code`, `city`) VALUES
+INSERT INTO `venue` (`id`, `name`, `address`, `postalcode`, `city`) VALUES
 (1, 'Libriarie Alpha-Bêtise', 'place Guyon', '14187', 'Lambert'),
 (2, 'Salle Jean Garnier', '20, rue de Royer', '14021', 'Laporte'),
 (3, 'Librairie de quartier', '54, rue Étienne Andre', '14162', 'Morvan-sur-Mer'),
@@ -444,8 +459,8 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `admin_comment`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `UNIQ_5048D0E516A2B381` (`book_id`),
-  ADD KEY `IDX_5048D0E5E237B440` (`book_name_id`);
+  ADD KEY `IDX_5048D0E516A2B381` (`book_id`),
+  ADD KEY `IDX_5048D0E5642B8210` (`admin_id`);
 
 --
 -- Index pour la table `age_group`
@@ -529,8 +544,7 @@ ALTER TABLE `event`
 -- Index pour la table `order`
 --
 ALTER TABLE `order`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_F52993989395C3F3` (`customer_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `order_book`
@@ -590,7 +604,7 @@ ALTER TABLE `book`
 -- AUTO_INCREMENT pour la table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `customer`
@@ -614,7 +628,7 @@ ALTER TABLE `customer_notation`
 -- AUTO_INCREMENT pour la table `event`
 --
 ALTER TABLE `event`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT pour la table `order`
@@ -643,7 +657,7 @@ ALTER TABLE `venue`
 --
 ALTER TABLE `admin_comment`
   ADD CONSTRAINT `FK_5048D0E516A2B381` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`),
-  ADD CONSTRAINT `FK_5048D0E5E237B440` FOREIGN KEY (`book_name_id`) REFERENCES `book` (`id`);
+  ADD CONSTRAINT `FK_5048D0E5642B8210` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`);
 
 --
 -- Contraintes pour la table `author_book`
@@ -686,12 +700,6 @@ ALTER TABLE `customer_notation`
 ALTER TABLE `event`
   ADD CONSTRAINT `FK_3BAE0AA740A73EBA` FOREIGN KEY (`venue_id`) REFERENCES `venue` (`id`),
   ADD CONSTRAINT `FK_3BAE0AA7B09E220E` FOREIGN KEY (`age_group_id`) REFERENCES `age_group` (`id`);
-
---
--- Contraintes pour la table `order`
---
-ALTER TABLE `order`
-  ADD CONSTRAINT `FK_F52993989395C3F3` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`);
 
 --
 -- Contraintes pour la table `order_book`

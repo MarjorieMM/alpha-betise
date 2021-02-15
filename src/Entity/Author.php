@@ -36,6 +36,7 @@ class Author
 
     /**
      * @ORM\ManyToMany(targetEntity=Book::class, inversedBy="authors")
+    *  @Groups("books")
      */
     private $books;
 

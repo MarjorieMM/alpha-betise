@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -20,94 +22,93 @@ class Customer implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("customer")
+     * @Groups("customers")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("customer")
+     * @Groups("customers")
+     * @Assert\NotBlank(message="Le nom est obligatoire")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("customer")
+     * @Groups("customers")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("customer")
+     * @Groups("customers")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("customers")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
-     *   @Groups("customer")
+     *   @Groups("customers")
      */
     private $address;
 
     /**
      * @ORM\Column(type="string", length=6)
-     *   @Groups("customer")
+     *   @Groups("customers")
      */
-    private $postal_code;
+    private $postalcode;
 
     /**
      * @ORM\Column(type="string", length=255)
-     *   @Groups("customer")
+     *   @Groups("customers")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     *   @Groups("customer")
+     *   @Groups("customers")
      */
     private $age;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     *   @Groups("customer")
+     *   @Groups("customers")
      */
     private $photo;
 
     /**
      * @ORM\Column(type="boolean")
-     *   @Groups("customer")
+     *   @Groups("customers")
      */
     private $newsletter;
 
     /**
      * @ORM\OneToMany(targetEntity=Booking::class, mappedBy="customer", orphanRemoval=true)
-     *  @Groups("customer")
+     *  @Groups("customers")
      */
     private $bookings;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="customer", orphanRemoval=true)
-     */
-    private $orders;
 
     /**
      * @ORM\OneToMany(targetEntity=CustomerComment::class, mappedBy="customer", orphanRemoval=true)
+     * @Groups("customers")
      */
     private $customer_comment;
 
     /**
      * @ORM\OneToMany(targetEntity=CustomerNotation::class, mappedBy="customer", orphanRemoval=true)
+     *  @Groups("customers")
      */
     private $customerNotations;
 
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
-        $this->orders = new ArrayCollection();
         $this->customer_comment = new ArrayCollection();
         $this->customerNotations = new ArrayCollection();
     }
@@ -184,12 +185,12 @@ class Customer implements UserInterface
 
     public function getPostalCode(): ?string
     {
-        return $this->postal_code;
+        return $this->postalcode;
     }
 
-    public function setPostalCode(string $postal_code): self
+    public function setPostalCode(string $postalcode): self
     {
-        $this->postal_code = $postal_code;
+        $this->postalcode = $postalcode;
 
         return $this;
     }
@@ -272,35 +273,6 @@ class Customer implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Order[]
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): self
-    {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getCustomer() === $this) {
-                $order->setCustomer(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|CustomerComment[]

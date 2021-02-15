@@ -157,28 +157,6 @@ class Book
     private $ageGroup;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Order::class, mappedBy="books")
-    
-     */
-    private $orders;
-
-    /**
-     * @ORM\OneToMany(targetEntity=OrderBook::class, mappedBy="book")
-     */
-    private $orderBooks;
-
-    /**
-     * @ORM\OneToOne(targetEntity=AdminComment::class, mappedBy="book", cascade={"persist", "remove"})
-     * @Groups("books")
-     */
-    private $adminComment;
-
-    /**
-     * @ORM\OneToMany(targetEntity=AdminComment::class, mappedBy="book_name")
-     */
-    private $admin_comment;
-
-    /**
      * @ORM\Column(type="integer", nullable=true)
      * @Groups("books")
      */
@@ -196,14 +174,24 @@ class Book
      */
     private $customer_notation;
 
+    /**
+     * @ORM\OneToMany(targetEntity=OrderBook::class, mappedBy="book", orphanRemoval=true)
+     */
+    private $orderbooks;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AdminComment::class, mappedBy="book", orphanRemoval=true)
+     */
+    private $admincomments;
+
+
     public function __construct()
     {
         $this->authors = new ArrayCollection();
-        $this->orders = new ArrayCollection();
-        $this->orderBooks = new ArrayCollection();
-        $this->admin_comment = new ArrayCollection();
         $this->customer_comment = new ArrayCollection();
         $this->customer_notation = new ArrayCollection();
+        $this->orderbooks = new ArrayCollection();
+        $this->admincomments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -495,107 +483,6 @@ class Book
         return $this;
     }
 
-    /**
-     * @return Collection|Order[]
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    // public function addOrder(Order $order): self
-    // {
-    //     if (!$this->orders->contains($order)) {
-    //         $this->orders[] = $order;
-    //         $order->addBook($this);
-    //     }
-
-    //     return $this;
-    // }
-
-    // public function removeOrder(Order $order): self
-    // {
-    //     if ($this->orders->removeElement($order)) {
-    //         $order->removeBook($this);
-    //     }
-
-    //     return $this;
-    // }
-
-    /**
-     * @return Collection|OrderBook[]
-     */
-    public function getOrderBooks(): Collection
-    {
-        return $this->orderBooks;
-    }
-
-    public function addOrderBook(OrderBook $orderBook): self
-    {
-        if (!$this->orderBooks->contains($orderBook)) {
-            $this->orderBooks[] = $orderBook;
-            $orderBook->setBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrderBook(OrderBook $orderBook): self
-    {
-        if ($this->orderBooks->removeElement($orderBook)) {
-            // set the owning side to null (unless already changed)
-            if ($orderBook->getBook() === $this) {
-                $orderBook->setBook(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getAdminComment(): ?AdminComment
-    {
-        return $this->adminComment;
-    }
-
-    public function setAdminComment(?AdminComment $adminComment): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($adminComment === null && $this->adminComment !== null) {
-            $this->adminComment->setBook(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($adminComment !== null && $adminComment->getBook() !== $this) {
-            $adminComment->setBook($this);
-        }
-
-        $this->adminComment = $adminComment;
-
-        return $this;
-    }
-
-    public function addAdminComment(AdminComment $adminComment): self
-    {
-        if (!$this->admin_comment->contains($adminComment)) {
-            $this->admin_comment[] = $adminComment;
-            $adminComment->setBookName($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAdminComment(AdminComment $adminComment): self
-    {
-        if ($this->admin_comment->removeElement($adminComment)) {
-            // set the owning side to null (unless already changed)
-            if ($adminComment->getBookName() === $this) {
-                $adminComment->setBookName(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getAdminNotation(): ?int
     {
         return $this->admin_notation;
@@ -672,4 +559,66 @@ class Book
     {
         return $this->getTitle();
     }
+
+    /**
+     * @return Collection|Orderbook[]
+     */
+    public function getOrderbooks(): Collection
+    {
+        return $this->orderbooks;
+    }
+
+    public function addOrderbook(Orderbook $orderbook): self
+    {
+        if (!$this->orderbooks->contains($orderbook)) {
+            $this->orderbooks[] = $orderbook;
+            $orderbook->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderbook(Orderbook $orderbook): self
+    {
+        if ($this->orderbooks->removeElement($orderbook)) {
+            // set the owning side to null (unless already changed)
+            if ($orderbook->getBook() === $this) {
+                $orderbook->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Admincomment[]
+     */
+    public function getAdmincomments(): Collection
+    {
+        return $this->admincomments;
+    }
+
+    public function addAdmincomment(Admincomment $admincomment): self
+    {
+        if (!$this->admincomments->contains($admincomment)) {
+            $this->admincomments[] = $admincomment;
+            $admincomment->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdmincomment(Admincomment $admincomment): self
+    {
+        if ($this->admincomments->removeElement($admincomment)) {
+            // set the owning side to null (unless already changed)
+            if ($admincomment->getBook() === $this) {
+                $admincomment->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

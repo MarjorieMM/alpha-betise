@@ -27,6 +27,14 @@ class BookCrudController extends AbstractCrudController
             IdField::new('id')
             ->setRequired(false),
             TextField::new('title'),
+            AssociationField::new('authors')
+            ->formatValue(function ($value, $entity) {
+                $str = $entity->getAuthors()[0];
+                for ($i = 1; $i < $entity->getAuthors()->count(); $i++) {
+                    $str = $str . ", " . $entity->getAuthors()[$i];
+                }
+                return $str;
+              }),
             TextEditorField::new('extract'),
             ImageField::new('cover_photo')
             ->setUploadDir('public/images/')
@@ -51,14 +59,7 @@ class BookCrudController extends AbstractCrudController
             // AssociationField::new('adminComments'),
             // TextField::new('admin_notation'),
             // AssociationField::new('customerOrderBooks'),
-            AssociationField::new('authors')
-            ->formatValue(function ($value, $entity) {
-                $str = $entity->getAuthors()[0];
-                for ($i = 1; $i < $entity->getAuthors()->count(); $i++) {
-                    $str = $str . ", " . $entity->getAuthors()[$i];
-                }
-                return $str;
-              }),
+            
 
         ];
     }

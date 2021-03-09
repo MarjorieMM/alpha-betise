@@ -137,7 +137,7 @@ class Book
     private $price;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Author::class, mappedBy="books", cascade={"persist"},)
+     * @ORM\ManyToMany(targetEntity=Author::class, inversedBy="books")
      *  @Groups("books")
      */
     private $authors;

@@ -10,7 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ApiBooksController extends AbstractController
 {
-   
+    /**
+     * @Route("/api/books", name="api_books_index", methods={"GET"})
+     */
     
     public function index(BookRepository $bookRepository )
     {
@@ -20,6 +22,10 @@ class ApiBooksController extends AbstractController
         // return new JsonResponse($json, 200, [], true);
 
     // return $this->json($bookRepository->findAll(), 200, [], ['groups' => 'books']);
+
+    $post = $bookRepository->findAll();
+
+    return $this->json($post, 200, [], ['groups' => 'books']);
 }
 
 }

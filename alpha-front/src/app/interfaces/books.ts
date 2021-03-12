@@ -1,0 +1,29 @@
+export interface Books {
+  title: string;
+  extract: string;
+  editor: string;
+  cover_photo: string;
+  photo_1: string;
+  photo_2: string;
+  publishing_house: string;
+  publication_date: Date;
+  collection: string;
+  EAN_code: string;
+  ISBN_code: string;
+  number_pages: number;
+  dimension_h: number;
+  dimension_w: number;
+  weight: number;
+  language: string;
+  original_language: string;
+  stock: number;
+  price: number;
+  authors: string;
+  availability: string;
+  ageGroup: string;
+  admin_notation: number;
+  customer_comment: string;
+  customer_notation: number;
+  orderbooks: any;
+  admincomments: string;
+}

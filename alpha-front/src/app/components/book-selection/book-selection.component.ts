@@ -9,11 +9,12 @@ import { Books } from '../../interfaces/books';
 })
 export class BookSelectionComponent implements OnInit {
   books: Books[];
-  constructor(private booksService: BooksService) {}
 
+  constructor(private booksService: BooksService) {
+    this.books = [];
+  }
   ngOnInit(): void {
     this.booksService.bookList().subscribe((librairy) => {
-      console.log(librairy);
       this.books = librairy;
     });
   }

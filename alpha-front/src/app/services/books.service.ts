@@ -16,7 +16,6 @@ export class BooksService {
   constructor(private http: HttpClient) {}
 
   bookList(): Observable<Books[]> {
-    console.log(this.http.get<Books[]>(this.apiURL));
     return this.http.get<Books[]>(this.apiURL);
   }
 }

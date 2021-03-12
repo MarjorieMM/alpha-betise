@@ -1,4 +1,5 @@
 export interface Books {
+  id: number;
   title: string;
   extract: string;
   editor: string;

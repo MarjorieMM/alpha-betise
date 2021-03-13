@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BooksService } from '../../services/books.service';
 import { Books } from '../../interfaces/books';
 
@@ -9,13 +9,15 @@ import { Books } from '../../interfaces/books';
 })
 export class BookSelectionComponent implements OnInit {
   books: Books[];
+  images: string = 'https://127.0.0.1:8000/images/';
 
   constructor(private booksService: BooksService) {
     this.books = [];
   }
   ngOnInit(): void {
-    this.booksService.bookList().subscribe((librairy) => {
-      this.books = librairy;
+    this.booksService.bookList().subscribe((library) => {
+      this.books = library;
+      console.log(library);
     });
   }
 }

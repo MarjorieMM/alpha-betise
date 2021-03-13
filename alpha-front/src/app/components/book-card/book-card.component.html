@@ -1,0 +1,18 @@
+<mat-card class="book-card">
+  <mat-card-title>{{ book.title }}</mat-card-title>
+  <mat-card-subtitle>
+    <div *ngFor="let author of book.authors">
+      <p>{{ author.firstname }} {{ author.lastname }}</p>
+    </div>
+  </mat-card-subtitle>
+  <mat-card-content>
+    <img
+      class="cover"
+      src="{{ images }}{{ book.cover_photo }}"
+      alt="couverture du livre : {{ book.title }}"
+    />
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="accent">Ajouter au panier</button>
+  </mat-card-actions>
+</mat-card>

@@ -1,5 +1,6 @@
-<ul>
-  <li *ngFor="let book of books">
-    {{ book.title }}
-  </li>
-</ul>
+<div>
+  <div *ngFor="let book of books">
+    <app-book-card [book]="book" [images]="images"></app-book-card>
+  </div>
+</div>
+<button mat-raised-button color="background">Mon bouton</button>

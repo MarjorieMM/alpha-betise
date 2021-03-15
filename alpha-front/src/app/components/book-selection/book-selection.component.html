@@ -1,6 +1,44 @@
-<div>
-  <div *ngFor="let book of books">
-    <app-book-card [book]="book" [images]="images"></app-book-card>
-  </div>
+<div class="content">
+  <mat-tab-group mat-align-tabs="center">
+    <!-- Onglet enfants 0 - 3 ans -->
+    <mat-tab label="Enfants 0 - 3 ans">
+      <div fxLayout="row wrap">
+        <div fxFlex="25%" *ngFor="let book of books">
+          <div *ngIf="book.ageGroup.category === 'Enfants 0 - 3 ans'">
+            <app-book-card [book]="book" [images]="images"></app-book-card>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <!-- Onglet enfants 4 - 7 ans -->
+    <mat-tab label="Enfants 4 - 7 ans">
+      <div fxLayout="row wrap">
+        <div fxFlex="20%" *ngFor="let book of books">
+          <div *ngIf="book.ageGroup.category === 'Enfants 4 - 7 ans'">
+            <app-book-card [book]="book" [images]="images"></app-book-card>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <!-- Onglet enfants 8 - 15 ans -->
+    <mat-tab label="Enfants 8 - 15 ans">
+      <div fxLayout="row wrap">
+        <div *ngFor="let book of books">
+          <div *ngIf="book.ageGroup.category === 'Enfants 8 - 15 ans'">
+            <app-book-card [book]="book" [images]="images"></app-book-card>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <!-- Onglet jeunes adultes -->
+    <mat-tab label="Jeunes adultes">
+      <div fxLayout="row wrap">
+        <div *ngFor="let book of books">
+          <div *ngIf="book.ageGroup.category === 'Jeunes adultes'">
+            <app-book-card [book]="book" [images]="images"></app-book-card>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </div>
-<button mat-raised-button color="background">Mon bouton</button>

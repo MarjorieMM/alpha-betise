@@ -7,6 +7,7 @@ import { BookSelectionComponent } from './components/book-selection/book-selecti
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { BookCardComponent } from './components/book-card/book-card.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [AppComponent, BookSelectionComponent, BookCardComponent],
@@ -16,6 +17,7 @@ import { BookCardComponent } from './components/book-card/book-card.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
